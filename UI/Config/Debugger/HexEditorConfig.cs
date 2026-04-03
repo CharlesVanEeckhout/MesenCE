@@ -34,7 +34,43 @@ namespace Mesen.Config
 		[Reactive] public bool HideWrittenBytes { get; set; } = false;
 		[Reactive] public bool HideExecutedBytes { get; set; } = false;
 
-		[Reactive] public HighlightFadeSpeed FadeSpeed { get; set; } = HighlightFadeSpeed.Normal;
+		private HighlightFadeSpeed _fadeSpeed = HighlightFadeSpeed.Normal;
+		public HighlightFadeSpeed FadeSpeed { 
+			get { return _fadeSpeed; }
+			set
+			{
+				HighlightFadeSpeed _fadeSpeedOld = _fadeSpeed;
+				this.RaiseAndSetIfChanged(ref _fadeSpeed, value);
+				if(_fadeSpeedOld != _fadeSpeed) {
+					FadeSpeedFrames = _fadeSpeed switch {
+						HighlightFadeSpeed.NoFade => 0,
+						HighlightFadeSpeed.Slow => 600,
+						HighlightFadeSpeed.Normal => 300,
+						HighlightFadeSpeed.Fast => 120,
+						HighlightFadeSpeed.Custom => FadeSpeedFrames,
+						_ => FadeSpeedFrames
+					};
+				}
+			}
+		}
+		private int _fadeSpeedFrames = 300;
+		public int FadeSpeedFrames {
+			get { return _fadeSpeedFrames; }
+			set
+			{
+				int _fadeSpeedFramesOld = _fadeSpeedFrames;
+				this.RaiseAndSetIfChanged(ref _fadeSpeedFrames, value);
+				if(_fadeSpeedFramesOld != _fadeSpeedFrames) {
+					FadeSpeed = _fadeSpeedFrames switch {
+						0 => HighlightFadeSpeed.NoFade,
+						600 => HighlightFadeSpeed.Slow,
+						300 => HighlightFadeSpeed.Normal,
+						120 => HighlightFadeSpeed.Fast,
+						_ => HighlightFadeSpeed.Custom
+					};
+				}
+			}
+		}
 		[Reactive] public HighlightConfig ReadHighlight { get; set; } = new() { Highlight = true, ColorCode = Colors.Blue.ToUInt32() };
 		[Reactive] public HighlightConfig WriteHighlight { get; set; } = new() { Highlight = true, ColorCode = Colors.Red.ToUInt32() };
 		[Reactive] public HighlightConfig ExecHighlight { get; set; } = new() { Highlight = true, ColorCode = Colors.Green.ToUInt32() };
@@ -62,21 +98,8 @@ namespace Mesen.Config
 		NoFade,
 		Slow,
 		Normal,
-		Fast
-	}
-
-	public static class HighlightFadeSpeedExtensions
-	{
-		public static int ToFrameCount(this HighlightFadeSpeed speed)
-		{
-			return speed switch {
-				HighlightFadeSpeed.NoFade => 0,
-				HighlightFadeSpeed.Slow => 600,
-				HighlightFadeSpeed.Normal => 300,
-				HighlightFadeSpeed.Fast => 120,
-				_ => 0
-			};
-		}
+		Fast,
+		Custom
 	}
 
 	public class HighlightConfig : ReactiveObject

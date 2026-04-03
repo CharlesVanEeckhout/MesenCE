@@ -56,13 +56,20 @@
 				/>
 			</DockPanel>			
 			
-			<WrapPanel>
+			<StackPanel>
 				<TextBlock VerticalAlignment="Center" Text="{l:Translate lblFadeSpeed}" />
-				<c:EnumComboBox
-					Width="100"
-					SelectedItem="{Binding Config.FadeSpeed}"
-				/>
-			</WrapPanel>
+				<WrapPanel>
+					<c:EnumComboBox
+						Width="100"
+						SelectedItem="{Binding Config.FadeSpeed}"
+					/>
+					<c:MesenNumericUpDown
+						Margin="3 0"
+						Minimum="0" Maximum="10000"
+						Value="{Binding Config.FadeSpeedFrames}"
+					/>
+				</WrapPanel>
+			</StackPanel>
 		</c:OptionSection>
 
 		<c:OptionSection Header="{l:Translate lblDataTypeHighlight}">

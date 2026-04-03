@@ -3007,6 +3007,7 @@ E
 			<Value ID="Slow">Slow</Value>
 			<Value ID="Normal">Normal</Value>
 			<Value ID="Fast">Fast</Value>
+			<Value ID="Custom">Custom</Value>
 		</Enum>
 		<Enum ID="NavType">
 			<Value ID="PrevCode">Navigate to: Previous code block</Value>

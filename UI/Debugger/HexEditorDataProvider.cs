@@ -181,7 +181,7 @@ namespace Mesen.Debugger
 				}
 			}
 
-			int framesToFade = _cfg.FadeSpeed.ToFrameCount();
+			int framesToFade = _cfg.FadeSpeedFrames;
 			if(_cfg.ExecHighlight.Highlight && _counters[index].ExecStamp != 0 && framesSinceExec >= 0 && (framesSinceExec < framesToFade || framesToFade == 0)) {
 				_byteInfo.ForeColor = DarkerColor(alpha, _cfg.ExecHighlight.Color, (framesToFade - framesSinceExec) / framesToFade);
 			} else if(_cfg.WriteHighlight.Highlight && _counters[index].WriteStamp != 0 && framesSinceWrite >= 0 && (framesSinceWrite < framesToFade || framesToFade == 0)) {

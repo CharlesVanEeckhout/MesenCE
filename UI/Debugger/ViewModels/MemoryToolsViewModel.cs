@@ -182,7 +182,7 @@ namespace Mesen.Debugger.ViewModels
 
 			TimingInfo timing = EmuApi.GetTimingInfo(Config.MemoryType.ToCpuType());
 			double cyclesPerFrame = timing.MasterClockRate / timing.Fps;
-			int framesToFade = Config.FadeSpeed.ToFrameCount();
+			int framesToFade = Config.FadeSpeedFrames;
 			double targetClock = framesToFade == 0 ? 0 : timing.MasterClock - cyclesPerFrame * framesToFade;
 
 			Func<int, bool> predicate = nav switch {
