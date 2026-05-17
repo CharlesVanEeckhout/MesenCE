@@ -166,6 +166,7 @@ namespace Mesen.Debugger.Utilities
 						case ConsoleType.Gameboy: importer = new GbWlaDxImporter(); break;
 						case ConsoleType.PcEngine: importer = new PceWlaDxImporter(); break;
 						case ConsoleType.Sms: importer = new SmsWlaDxImporter(); break;
+						case ConsoleType.Nes: importer = new NesWlaDxImporter(); break;
 					}
 
 					if(importer != null) {

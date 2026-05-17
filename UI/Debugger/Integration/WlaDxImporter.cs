@@ -305,6 +305,19 @@ public abstract class WlaDxImporter : ISymbolProvider
 	}
 }
 
+public class NesWlaDxImporter : WlaDxImporter
+{
+	protected override AddressInfo GetLabelAddress(int bank, int addr)
+	{
+		if(addr < 0x6000) {
+			AddressInfo relAddr = new AddressInfo() { Address = addr, Type = MemoryType.NesMemory };
+			return DebugApi.GetAbsoluteAddress(relAddr);
+		} else {
+			return new AddressInfo() { Address = bank * 0x4000 + (addr & 0x3FFF), Type = MemoryType.NesPrgRom };
+		}
+	}
+}
+
 public class SnesWlaDxImporter : WlaDxImporter
 {
 	protected override AddressInfo GetLabelAddress(int bank, int addr)
