@@ -13,8 +13,8 @@ namespace Mesen.Config
 {
 	public class InputConfig : BaseConfig<InputConfig>
 	{
-		[Reactive] [MinMax(0, 4)] public UInt32 ControllerDeadzoneSize { get; set; } = 2;
-		[Reactive] [MinMax(0, 9)] public UInt32 MouseSensitivity { get; set; } = 5;
+		[Reactive][MinMax(0, 4)] public UInt32 ControllerDeadzoneSize { get; set; } = 2;
+		[Reactive][MinMax(0, 9)] public UInt32 MouseSensitivity { get; set; } = 5;
 		[Reactive] public bool HidePointerForLightGuns { get; set; } = false;
 		[Reactive][MinMax(0, 10)] public UInt32 ForceFeedbackIntensity { get; set; } = 5;
 
@@ -320,7 +320,7 @@ namespace Mesen.Config
 		public UInt16 TurboR;
 		public UInt16 TurboSelect;
 		public UInt16 TurboStart;
-		
+
 		public UInt16 GenericKey1;
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 100)]
@@ -352,6 +352,9 @@ namespace Mesen.Config
 		SuperScope,
 		Multitap,
 		SnesRumbleController,
+		SnesNttDataKeypad,
+		AsciiTurboFileTwinTf2,
+		AsciiTurboFileTwinStf,
 
 		//NES controllers
 		NesController,
@@ -410,6 +413,7 @@ namespace Mesen.Config
 		//WonderSwan
 		WsController,
 		WsControllerVertical,
+		Pcv2Controller,
 	}
 
 	public static class ControllerTypeExtensions
@@ -419,6 +423,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
@@ -432,6 +437,7 @@ namespace Mesen.Config
 				case ControllerType.ColecoVisionController:
 				case ControllerType.WsController:
 				case ControllerType.WsControllerVertical:
+				case ControllerType.Pcv2Controller:
 					return true;
 			}
 
@@ -443,6 +449,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
@@ -454,6 +461,9 @@ namespace Mesen.Config
 				case ControllerType.HoriTrack:
 				case ControllerType.BandaiHyperShot:
 				case ControllerType.SmsController:
+				case ControllerType.WsController:
+				case ControllerType.WsControllerVertical:
+				case ControllerType.Pcv2Controller:
 					return true;
 			}
 
@@ -465,6 +475,7 @@ namespace Mesen.Config
 			switch(type) {
 				case ControllerType.SnesController:
 				case ControllerType.SnesRumbleController:
+				case ControllerType.SnesNttDataKeypad:
 				case ControllerType.NesController:
 				case ControllerType.FamicomController:
 				case ControllerType.FamicomControllerP2:
@@ -500,6 +511,7 @@ namespace Mesen.Config
 				case ControllerType.ColecoVisionController:
 				case ControllerType.WsController:
 				case ControllerType.WsControllerVertical:
+				case ControllerType.Pcv2Controller:
 					return true;
 			}
 

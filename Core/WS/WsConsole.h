@@ -14,7 +14,9 @@ class WsMemoryManager;
 class WsControlManager;
 class WsDmaController;
 class WsEeprom;
+
 enum class WsModel : uint8_t;
+enum class WsAudioMode : uint8_t;
 
 class WsConsole final : public IConsole
 {
@@ -51,24 +53,27 @@ private:
 	uint32_t _cartEepromSize = 0;
 
 	WsModel _model = {};
+	bool _colorModel = false;
 	bool _verticalMode = false;
-	
+
 	void InitPostBootRomState();
 
 public:
 	WsConsole(Emulator* emu);
 	~WsConsole();
 
-	static vector<string> GetSupportedExtensions() { return { ".ws", ".wsc" }; }
-	static vector<string> GetSupportedSignatures() { return { }; }
+	static vector<string> GetSupportedExtensions() { return { ".ws", ".wsc", ".pc2" }; }
+	static vector<string> GetSupportedSignatures() { return {}; }
 
 	LoadRomResult LoadRom(VirtualFile& romFile) override;
 	void RunFrame() override;
 
 	void GetScreenRotationOverride(uint32_t& rotation) override;
 	bool IsColorMode();
+	bool IsColorModel();
 	bool IsPowerOff();
 	bool IsVerticalMode();
+	WsAudioMode GetAudioMode();
 	WsModel GetModel();
 
 	void ProcessEndOfFrame();
@@ -92,7 +97,7 @@ public:
 	AddressInfo GetAbsoluteAddress(uint32_t relAddr);
 	AddressInfo GetAbsoluteAddress(AddressInfo& relAddress) override;
 	AddressInfo GetRelativeAddress(AddressInfo& absAddress, CpuType cpuType) override;
-	
+
 	WsState GetState();
 	void GetConsoleState(BaseState& state, ConsoleType consoleType) override;
 

@@ -4,16 +4,17 @@
 #include <unordered_set>
 #if __has_include(<filesystem>)
 	#include <filesystem>
-	namespace fs = std::filesystem;
+namespace fs = std::filesystem;
 #elif __has_include(<experimental/filesystem>)
 	#include <experimental/filesystem>
-	namespace fs = std::experimental::filesystem;
+namespace fs = std::experimental::filesystem;
 #endif
 
 using std::string;
 using std::vector;
 
-extern "C" {
+extern "C"
+{
 	void __stdcall PgoRunTest(vector<string> testRoms, bool enableDebugger);
 }
 
@@ -47,7 +48,7 @@ int main(int argc, char* argv[])
 		romFolder = argv[1];
 	}
 
-	vector<string> testRoms = GetFilesInFolder(romFolder, { ".sfc", ".gb", ".gbc", ".gbx", ".nes", ".pce", ".cue", ".sms", ".gg", ".sg", ".gba", ".col", ".ws", ".wsc" });
+	vector<string> testRoms = GetFilesInFolder(romFolder, { ".sfc", ".gb", ".gbc", ".gbx", ".nes", ".pce", ".cue", ".sms", ".gg", ".sg", ".gba", ".col", ".ws", ".wsc", ".pc2" });
 	PgoRunTest(testRoms, true);
 	return 0;
 }

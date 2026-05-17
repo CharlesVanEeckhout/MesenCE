@@ -24,11 +24,11 @@ namespace Mesen.ViewModels
 	public class NesInputConfigViewModel : DisposableViewModel
 	{
 		[Reactive] public NesConfig Config { get; set; }
-		
+
 		public List<ShortcutKeyInfo> ShortcutKeys { get; set; }
 
 		private MainWindowViewModel MainWindow { get; }
-		
+
 		[Reactive] public bool ShowMapperInput { get; private set; }
 		[Reactive] public bool HasFourScore { get; private set; }
 		[ObservableAsProperty] public bool HasFourPlayerAdapter { get; }
@@ -47,6 +47,7 @@ namespace Mesen.ViewModels
 			ControllerType.PowerPadSideB,
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
+			ControllerType.SnesNttDataKeypad,
 			ControllerType.SuborMouse,
 			ControllerType.VbController
 		};
@@ -62,6 +63,7 @@ namespace Mesen.ViewModels
 			ControllerType.PowerPadSideB,
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
+			ControllerType.SnesNttDataKeypad,
 			ControllerType.SuborMouse,
 			ControllerType.VbController
 		};
@@ -77,6 +79,7 @@ namespace Mesen.ViewModels
 			ControllerType.Pachinko,
 			ControllerType.SnesController,
 			ControllerType.SnesMouse,
+			ControllerType.SnesNttDataKeypad,
 			ControllerType.SuborMouse,
 			ControllerType.VbController,
 		};
@@ -127,7 +130,7 @@ namespace Mesen.ViewModels
 			}));
 
 			AddDisposable(this.WhenAnyValue(x => x.Config.ExpPort.Type).Select(t => t == ControllerType.FourPlayerAdapter).ToPropertyEx(this, x => x.HasFourPlayerAdapter));
-			
+
 			AddDisposable(
 				this.WhenAnyValue(x => x.Config.ExpPort.Type)
 					.Select(t => t == ControllerType.TwoPlayerAdapter || t == ControllerType.FourPlayerAdapter)

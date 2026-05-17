@@ -3,9 +3,7 @@
 #include "WS/WsConsole.h"
 #include "Shared/BaseControlDevice.h"
 #include "Shared/Emulator.h"
-#include "Shared/EmuSettings.h"
 #include "Shared/InputHud.h"
-#include "Utilities/Serializer.h"
 
 class WsController : public BaseControlDevice
 {
@@ -48,10 +46,25 @@ protected:
 	}
 
 	void RefreshStateBuffer() override
-	{}
+	{
+	}
 
 public:
-	enum Buttons { Up = 0, Down, Left, Right, Up2, Down2, Left2, Right2, Sound, Start, B, A };
+	enum Buttons
+	{
+		Up = 0,
+		Down,
+		Left,
+		Right,
+		Up2,
+		Down2,
+		Left2,
+		Right2,
+		Sound,
+		Start,
+		B,
+		A
+	};
 
 	WsController(Emulator* emu, WsConsole* console, uint8_t port, KeyMappingSet horizontalMappings, KeyMappingSet verticalMappings) : BaseControlDevice(emu, ControllerType::WsController, port, horizontalMappings)
 	{

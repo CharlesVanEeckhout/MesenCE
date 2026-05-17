@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 #include "pch.h"
 #include "NES/INesMemoryHandler.h"
 #include "Utilities/ISerializable.h"
@@ -79,7 +79,7 @@ protected:
 	//176
 	PpuControlFlags _control = {}; // 8 bytes
 	PpuMaskFlags _mask = {}; // 8 bytes
-  ////////////////////////
+	////////////////////////
 	//192 : end of cache line
 	////////////////////////
 	uint8_t _spriteRam[0x100] = {};
@@ -103,6 +103,9 @@ protected:
 	bool _needVideoRamIncrement = false;
 	bool _allowFullPpuAccess = false;
 
+	uint8_t _ppuMemoryDataReadStateMachine = 0;
+	uint8_t _ppuMemoryDataWriteStateMachine = 0;
+	uint8_t _ppuMemoryDataWriteLatch = 0;
 	uint8_t _memoryReadBuffer = 0;
 	PPUStatusFlags _statusFlags = {};
 
@@ -112,9 +115,9 @@ protected:
 	uint32_t _ignoreVramRead = 0;
 	int32_t _openBusDecayStamp[8] = {};
 
-	uint64_t _oamDecayCycles[0x40] = {};
+	uint64_t _oamDecayCycles[0x20] = {};
 	bool _corruptOamRow[32] = {};
-	
+
 	bool IsRenderingEnabled();
 	void UpdateGrayscaleAndIntensifyBits();
 	void UpdateColorBitMasks();

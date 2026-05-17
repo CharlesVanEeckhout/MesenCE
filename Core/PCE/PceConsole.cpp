@@ -68,7 +68,11 @@ LoadRomResult PceConsole::LoadRom(VirtualFile& romFile)
 	} else {
 		romFile.ReadFile(romData);
 		crc32 = CRC32::GetCRC(romData);
-		if((romData.size() % 0x2000) == 512) {
+
+		if(romData.size() < 0x2000) {
+			//Pad ROM to 8kb when smaller (prevents crashes)
+			romData.insert(romData.end(), 0x2000 - romData.size(), 0);
+		} else if((romData.size() % 0x2000) == 512) {
 			//File probably has header, discard it
 			romData.erase(romData.begin(), romData.begin() + 512);
 		}
@@ -85,7 +89,7 @@ LoadRomResult PceConsole::LoadRom(VirtualFile& romFile)
 		}
 
 		cdromUnitEnabled = cfg.EnableCdRomForHuCardGames;
-		
+
 		if(cdromUnitEnabled || !cfg.DisableCdRomSaveRamForHuCardGames) {
 			//CD-ROM is used for save ram for non-cd-rom games
 			DiscInfo emptyDisc = {};
@@ -113,7 +117,7 @@ LoadRomResult PceConsole::LoadRom(VirtualFile& romFile)
 	_controlManager.reset(new PceControlManager(_emu));
 	_vce.reset(new PceVce(_emu, this));
 	_vpc.reset(new PceVpc(_emu, this, _vce.get()));
-	
+
 	_vdc.reset(new PceVdc(_emu, this, _vpc.get(), _vce.get(), false));
 	if(consoleType == PceConsoleType::SuperGrafx) {
 		_vdc2.reset(new PceVdc(_emu, this, _vpc.get(), _vce.get(), true));
@@ -169,7 +173,7 @@ void PceConsole::RunFrame()
 	while(frameCount == _vdc->GetFrameCount()) {
 		_cpu->Exec();
 	}
-	
+
 	_psg->Run();
 	_psg->PlayQueuedAudio();
 }
@@ -322,7 +326,7 @@ void PceConsole::InitHesPlayback(uint8_t selectedTrack)
 		_memoryManager->DebugWrite(0x2000 | i, 0);
 	}
 
-	//Setup stack to return to 0x1C00 on RTS, 0x1C00 is setup to cause an infinite loop with BRA	
+	//Setup stack to return to 0x1C00 on RTS, 0x1C00 is setup to cause an infinite loop with BRA
 	_cpu->GetState().SP = 0xFD;
 	_memoryManager->DebugWrite(0x21FE, 0xFF);
 	_memoryManager->DebugWrite(0x21FF, 0x1B);

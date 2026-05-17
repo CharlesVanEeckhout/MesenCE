@@ -1,11 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "Utilities/ISerializable.h"
 #include "NES/NesTypes.h"
 #include "NES/BaseNesPpu.h"
-#include "NES/BaseMapper.h"
-#include "NES/NesTypes.h"
 #include "NES/INesMemoryHandler.h"
 #include "Shared/MemoryOperationType.h"
 
@@ -15,6 +12,7 @@ class Emulator;
 class SnesControlManager;
 class NesConsole;
 class EmuSettings;
+struct RenderedFrame;
 
 enum PpuRegisters
 {
@@ -33,10 +31,9 @@ template<class T>
 class NesPpu : public BaseNesPpu
 {
 private:
-	static constexpr int32_t OamDecayCycleCount = 3000;
+	static constexpr int32_t OamDecayCycleCount = 4500; //About 40 scanlines.
 
 protected:
-	
 	void UpdateStatusFlag();
 
 	void SetControlRegister(uint8_t value);
@@ -80,7 +77,7 @@ protected:
 
 	void SendFrame();
 
-	void SendFrameVsDualSystem();
+	void SendFrameVsDualSystem(RenderedFrame& frame);
 
 	void UpdateState();
 
@@ -110,7 +107,7 @@ public:
 	uint16_t* GetScreenBuffer(bool previousBuffer, bool processGrayscaleEmphasisBits = false) override;
 	void DebugCopyOutputBuffer(uint16_t* target);
 	void DebugUpdateFrameBuffer(bool toGrayscale);
-	
+
 	void GetMemoryRanges(MemoryRanges& ranges) override
 	{
 		ranges.AddHandler(MemoryOperation::Read, 0x2000, 0x3FFF);
